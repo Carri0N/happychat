@@ -919,7 +919,7 @@ module.exports = "#loginContainer {\r\n    margin-top: 10%;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"loginContainer\">\n    <app-login-form (redirectEvent)=\"redirect()\"></app-login-form>\n</div>\n"
+module.exports = "<h1>Test</h1>\n<div id=\"loginContainer\">\n    <app-login-form (redirectEvent)=\"redirect()\"></app-login-form>\n</div>\n"
 
 /***/ }),
 
@@ -1423,7 +1423,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\CarrioN\Documents\Uni\6_Cloud Computing\ChatGit\ChatServer\chatclient\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\CarrioN\Documents\Uni\6_Cloud Computing\ChatGit2\chatclient\src\main.ts */"./src/main.ts");
 
 
 /***/ }),
