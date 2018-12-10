@@ -1,0 +1,15 @@
+<div id="container">
+  <form (ngSubmit)="onSubmit()" #chatForm="ngForm">
+    <input [(ngModel)]="messageText" class="form-control" type="text" id="input" name="msg" placeholder="Enter Message"
+      required>
+    <button mat-stroked-button type="submit" id="submit">
+      <mat-icon class="icon">send</mat-icon>
+    </button>
+    <label id="filebutton" for="file">
+      <button mat-stroked-button style="pointer-events: none;">
+        <mat-icon class="icon" style="pointer-events: none;">attach_file</mat-icon>
+      </button>
+    </label>
+    <input type="file" name="file" id="file" (change)="onChange($event)" />
+  </form>
+</div>

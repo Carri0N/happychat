@@ -1,0 +1,177 @@
+.clear {
+  clear: both;
+}
+
+#component {
+  height: 100%;
+}
+
+/* Header Styling */
+
+#info {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 10px;
+  height: 10%;
+}
+
+#title {
+  float: left;
+}
+
+#userinfo {
+  color: grey;
+  border: solid;
+  border-width: 2px;
+  padding: 10px;
+  float: right;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+#userinfo:hover {
+  background-color: lightblue;
+  cursor: pointer;
+}
+
+h1 {
+  margin: 0;
+}
+
+h2{
+  margin: 0;
+  font-size: 20px;
+  padding-right: 10px;
+  display: table-cell;
+}
+
+h3{
+  padding-left: 10px;
+  border-left: solid;
+  border-color: grey;
+  border-width: 2px;
+  margin: 0;
+  font-size: 19px;
+  display: table-cell;
+}
+
+/* Form Styling */
+
+#userInputContainer {
+  width: 100%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+#fileButton {
+  float:left;
+  width: 3.25%;
+  cursor: pointer;
+}
+
+#fileImage{
+  pointer-events: none;
+}
+
+h6{
+  float:left;
+  width: 5%;
+}
+
+#file {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+form {
+  float: left;
+  width: 100%;
+}
+
+form button {
+  float: left;
+  width: 10%;
+}
+
+form input{
+  float: left;
+  width: 80%;
+}
+
+
+#chatform{
+  margin-top: 2px;
+  height: 5%;
+  width: 100%;
+}
+
+#messages{
+  height: 93%;
+  overflow: auto;
+  /*align-items: flex-start;*/
+  display: flex;
+  flex-direction: column-reverse;
+  min-height: 0px;
+}
+
+.window{
+  height: 100%;
+  float:left;
+}
+
+#main {
+  box-sizing: border-box;
+  width: 100%;
+  height: 89%;
+}
+
+#room{
+  width: 14%;
+  float: left;
+}
+
+#chat{
+  border-left: 1px solid lightgrey;
+  border-top: 1px solid lightgrey;
+  width: 80%;
+  float: left;
+  margin-left: 0px;
+}
+
+
+#list{
+  margin: 0px;
+  border-top: 1px solid lightgrey;
+  width: 18%;
+  float: left;
+}
+
+ /* width */
+ ::-webkit-scrollbar {
+  width: 15px;
+  
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0);
+ 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(78, 156, 182, 0.2);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+ 
+  border:solid;
+  border-width: 2px;
+  border-color: lightblue;
+} 

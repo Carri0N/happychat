@@ -1,0 +1,4 @@
+ applications:
+ - name: happychat123
+   memory: 256M
+   instances: 1

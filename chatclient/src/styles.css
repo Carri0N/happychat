@@ -1,0 +1,9 @@
+@import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+html {
+    height: 96.3%;
+}
+body{
+    height: 100%;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

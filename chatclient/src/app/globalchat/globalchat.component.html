@@ -1,0 +1,28 @@
+<div id="component">
+  <div id="info">
+    <div id="title">
+      <h1>HappyChat</h1>
+    </div>
+    <div title="Logout" id="userinfo" (click)="backToLogin()">
+      <h2>{{username}}</h2><h3>Chat: {{chat}}</h3>
+    </div>
+  </div>
+  <div class="clear"></div>
+
+  <div id="main">
+
+    <app-userlist (sendEvent)="userlist=$event" class="window" id="list"></app-userlist>
+
+    <div class="window" id="chat">
+      <div id="messages">
+        <app-chat-display [messages]="displayMessages"></app-chat-display>
+      </div>
+      <div id="chatform">
+        <app-chat-form (sendEvent)="sendMessage($event)"></app-chat-form>
+      </div>
+    </div>
+   
+    
+
+  </div>
+</div>

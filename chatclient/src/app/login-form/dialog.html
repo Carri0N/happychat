@@ -1,0 +1,41 @@
+<div ng *ngIf="!hide">
+    <div>
+        <h1 style="margin:0px;font-size: 26px">Welcome {{data.name}}!</h1>
+        <h1 style="margin:5px;margin-left:0px;font-size: 24px">We noticed you're new.</h1>
+    </div>
+    <mat-divider style="margin:10px;margin-left:0px"></mat-divider>
+    <div>
+
+        <label for="file" style="cursor: pointer;">
+            <button mat-raised-button style="pointer-events: none;">Select Picture</button>
+        </label>
+        <mat-icon style="margin-left: 5px; float: right;" *ngIf="validImage != undefined" matSuffix>{{validImage ?
+            'done' : 'highlight_off'}}</mat-icon>
+        <input accept="image/x-png,image/jpeg" id="file" type="file" style="display: none" (change)="onChange($event);" />
+        <div *ngIf="image">
+            <img id="image" [src]="image" alt="---" style="float:left; width: 150px;height: 150px; border: 1px solid lightgray" />
+            <div *ngIf="validImage" style="float:left;margin-left: 5px;">
+                <strong>{{gender}}</strong>
+                <br>
+                <strong>{{age}}</strong>
+            </div>
+        </div>
+
+        <mat-progress-bar mode="query" style="margin-top: 10px;" *ngIf="validateImage" value={{uploadProgress}}></mat-progress-bar>
+    </div>
+    <div style="clear: both"></div>
+    <mat-divider style="margin:10px;margin-left:0px"></mat-divider>
+    <div>
+        <mat-slide-toggle [(ngModel)]="mood">Show Mood</mat-slide-toggle>
+    </div>
+
+    <mat-divider style="margin:10px;margin-left:0px"></mat-divider>
+    
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">No Thanks</button>
+        <button mat-button (click)="onSubmit()" cdkFocusInitial>Sign Up</button>
+    </div>
+</div>
+<div *ngIf="hide">
+    <mat-spinner></mat-spinner>
+</div>

@@ -1,0 +1,17 @@
+<div id="container">
+    <div id="header">
+        <h1>Online Users: {{list.length}}</h1>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+        <mat-list-item *ngFor="let item of list">
+            <div *ngIf="item.image == null">
+                <img id="img" src="assets/image/default-user.png">
+            </div>
+            <div *ngIf="item.image!=null">
+                <img id="img" [src]="'data:image/jpg;base64,'+item.image" />
+            </div>
+            <div id="user">{{item.name}}</div>
+        </mat-list-item>
+    </mat-nav-list> 
+</div>

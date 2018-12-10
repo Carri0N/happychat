@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Maximilian Waiblinger(762390), Adrian Schwab(762382)",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cfenv": "^1.1.0",
+    "delivery": "0.0.6",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "file-system": "^2.2.2",
+    "image-to-base64": "^2.0.1",
+    "moment": "^2.22.2",
+    "mongodb": "^3.1.10",
+    "mongoose": "^4.13.17",
+    "socket.io": "^2.1.1",
+    "socketio-file-upload": "^0.6.4",
+    "watson-developer-cloud": "^3.13.0"
+  }
+}
