@@ -6,7 +6,11 @@
 }
 
 #loginContainer {
-    width: 400px;
+    width: 250px;
     margin: 0 auto;
     align-content: center;
+}
+
+mat-form-field {
+    width: 100%;
 }

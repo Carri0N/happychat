@@ -687,7 +687,7 @@ module.exports = "<div ng *ngIf=\"!hide\">\r\n    <div>\r\n        <h1 style=\"m
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".loginPart{\r\n    margin: 20px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: flex-start;\r\n}\r\n\r\n#loginContainer {\r\n    width: 400px;\r\n    margin: 0 auto;\r\n    align-content: center;\r\n}"
+module.exports = ".loginPart{\r\n    margin: 20px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: flex-start;\r\n}\r\n\r\n#loginContainer {\r\n    width: 250px;\r\n    margin: 0 auto;\r\n    align-content: center;\r\n}\r\n\r\nmat-form-field {\r\n    width: 100%;\r\n}"
 
 /***/ }),
 
