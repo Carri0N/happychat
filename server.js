@@ -48,7 +48,7 @@ app.get('/client/chat', function(req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
