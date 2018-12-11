@@ -12,6 +12,7 @@ var MONGODB_URL = "mongodb://admin:GWUJEMLJRVRJSUEM@portal-ssl372-68.bmix-eu-gb-
 const express = require('express');
 const app = express();
 
+const helmet = require('helmet')
 const fs = require('fs');
 const fu = require('socketio-file-upload');
 const file = require('file-system');
@@ -44,13 +45,19 @@ server.listen(port, () => {
   console.log(`started on port: ${port}`);
 });
 
+
+app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));
 
 
-app.get('*', function (req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/client/index.html');
 });
+
+app.all('*', function(req, res) {
+  res.sendFile(__dirname + '/client/index.html');
+})
 
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
   if (!err) {

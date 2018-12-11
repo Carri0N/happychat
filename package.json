@@ -17,6 +17,7 @@
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "file-system": "^2.2.2",
+    "helmet": "^3.15.0",
     "image-to-base64": "^2.0.1",
     "moment": "^2.22.2",
     "mongodb": "^3.1.10",

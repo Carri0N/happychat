@@ -619,7 +619,6 @@ var GlobalchatComponent = /** @class */ (function () {
         this.chatservice = chatservice;
         this.userlist = [];
         this.displayMessages = [];
-        this.username = localStorage.getItem('username');
         //moodservice: MoodService;
         this.chat = 'global';
         //this.moodservice = new MoodService();
@@ -630,8 +629,6 @@ var GlobalchatComponent = /** @class */ (function () {
      */
     GlobalchatComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.username == null || this.username == undefined) {
-        }
         this.chatservice.join(this.chat);
         this.chatservice.getMessages().subscribe(function (message) {
             var m = new _classes_message__WEBPACK_IMPORTED_MODULE_3__["Message"](message.user, message.timestamp, message.message, message.code);
@@ -919,7 +916,7 @@ module.exports = "#loginContainer {\r\n    margin-top: 10%;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Test</h1>\n<div id=\"loginContainer\">\n    <app-login-form (redirectEvent)=\"redirect()\"></app-login-form>\n</div>\n"
+module.exports = "\n<div id=\"loginContainer\">\n    <app-login-form (redirectEvent)=\"redirect()\"></app-login-form>\n</div>\n"
 
 /***/ }),
 

@@ -15,8 +15,6 @@ export class GlobalchatComponent implements OnInit {
   
   public userlist: User[] = [];
   public displayMessages: Message[] = [];
-  
-  username: string = localStorage.getItem('username');
 
   //moodservice: MoodService;
 
@@ -31,8 +29,6 @@ export class GlobalchatComponent implements OnInit {
    * subscribes to chat service to get updates on messages
    */
   ngOnInit() {
-    if(this.username == null || this.username == undefined) {
-    }
     this.chatservice.join(this.chat);
     this.chatservice.getMessages().subscribe((message) => {
       var m = new Message(message.user, message.timestamp, message.message, message.code);
