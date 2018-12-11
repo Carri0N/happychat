@@ -45,7 +45,7 @@ app.use(fu.router);
 app.use(express.static(__dirname + '/client/index.html'));
 
 app.all('*', function(req, res) {
-  res.redirect('https://' + req.headers.host + '/client/');
+  res.redirect('https://' + req.headers.host + '/client/index.html');
 })
 
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
