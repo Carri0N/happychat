@@ -44,7 +44,11 @@ app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname + '/client/index.html'));
 
-app.all('*', function(req, res) {
+app.get('/client/chat', function(req, res) {
+  res.sendFile(__dirname + '/client/index.html');
+})
+
+app.get('*', function(req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
