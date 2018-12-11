@@ -21,15 +21,9 @@ const socketIO = require('socket.io');
 const http = require('http');
 const https = require('https');
 const moment = require('moment');
-const base64 = require('image-to-base64')
-
-var options = {
-  key: fs.readFileSync('encryption/server.key'),
-  cert: fs.readFileSync('encryption/server.crt')
-};
+const base64 = require('image-to-base64');
 
 const server = http.Server(app);
-//const server = https.Server(options, app);
 const io = socketIO(server);
 const port = process.env.PORT || 3000;
 
@@ -48,15 +42,10 @@ server.listen(port, () => {
 
 app.use(helmet());
 app.use(fu.router);
-app.use(express.static(__dirname));
-
-
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/client/index.html');
-});
+app.use(express.static(__dirname + '/client/index.html'));
 
 app.all('*', function(req, res) {
-  res.sendFile(__dirname + '/client/index.html');
+  res.redirect('https://' + req.headers.host + '/client');
 })
 
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
