@@ -48,9 +48,6 @@ app.all('*', function(req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
-app.get('/client/*', function(req, res) {
-  res.redirect('https://' + req.headers.host + '/client/');
-})
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
   if (!err) {
     console.log("Databasee connected");
