@@ -42,13 +42,9 @@ server.listen(port, () => {
 
 app.use(helmet());
 app.use(fu.router);
-app.use(express.static(__dirname + '/client/index.html'));
+app.use(express.static(__dirname + '/client/'));
 
-app.get('/client/chat', function(req, res) {
-  res.sendFile(__dirname + '/client/index.html');
-})
-
-app.get('/', function(req, res) {
+app.get('*', function(req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
