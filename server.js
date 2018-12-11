@@ -48,6 +48,10 @@ app.get('*', function(req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
+app.get('/client/chat', function(req, res) {
+  res.sendFile(__dirname + '/client/index.html');
+})
+
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
   if (!err) {
     console.log("Databasee connected");
