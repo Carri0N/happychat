@@ -47,7 +47,7 @@ export class GlobalchatComponent implements OnInit {
 
   sendMessage($event) {
     var input = $event;
-    this.chatservice.sendMessage(input);
+    this.chatservice.sendMessage(input.text, input.file);
   }
  
 

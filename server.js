@@ -44,7 +44,7 @@ app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));
 
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
@@ -74,6 +74,10 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
         fs.unlinkSync(socket.file.pathName)
       }
       socket.file = event.file;
+    })
+
+    socket.on('msgimage', function (image) {
+
     })
 
     /**
@@ -175,8 +179,8 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
         if (socket.file) {
           fs.unlinkSync(socket.file.pathName);
         }
-      } catch (e) {}
-      
+      } catch (e) { }
+
     })
 
     /**
@@ -246,33 +250,55 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
       socket.emit('userpic', { user: user, img: file })
     })
 
+
+    var fileUpload = [];
     /**
      * emits message to all users in same chat room
+     * input {
+     *  message: string
+     *  isFile: bool
+     *  file : File
+     * }
      */
-    socket.on('message', function (message) {
-      message1 = createMessage(3, socket.nickname, message)
-      asarr = message.split(" ");
+    socket.on('message', function (input) {
+      if (!input.isFile) {
+        var message = input.message;
+        message1 = createMessage(3, socket.nickname, message)
+        asarr = message.split(" ");
 
-      if (asarr[0] == "\\whisper" && asarr.length > 2) {
-        findClientsSocket().forEach(element => {
-          if (element.nickname == asarr[1]) {
-            m = "";
-            for (let index = 2; index < asarr.length; index++) {
-              m += asarr[index] + " ";
+        if (asarr[0] == "\\whisper" && asarr.length > 2) {
+          findClientsSocket().forEach(element => {
+            if (element.nickname == asarr[1]) {
+              m = "";
+              for (let index = 2; index < asarr.length; index++) {
+                m += asarr[index] + " ";
+              }
+              socket.emit('message', createMessage(3, socket.nickname + " > " + element.nickname, m));
+              element.emit('message', createMessage(3, socket.nickname + " > " + element.nickname, m));
             }
-            socket.emit('message', createMessage(3, socket.nickname + " > " + element.nickname, m));
-            element.emit('message', createMessage(3, socket.nickname + " > " + element.nickname, m));
-          }
-        });
-      } else if (asarr[0] == "\\list") {
-        message1.message = getAllUsersAsString();
-        message1.code = 1;
-        message1.user = "Server List";
-        socket.emit('message', message1);
+          });
+        } else if (asarr[0] == "\\list") {
+          message1.message = getAllUsersAsString();
+          message1.code = 1;
+          message1.user = "Server List";
+          socket.emit('message', message1);
+        } else {
+          io.in(socket.userroom).emit('message', message1);
+        }
+        console.log("Message sent in room: " + socket.userroom + ", Message: " + JSON.stringify(message1))
+      } else if (input.isFile) {
+        input.file = new Buffer(new Uint8Array(input.file))
+        fileUpload[socket.id].file.push(input.file);
+        fileUpload[socket.id].slice = fileUpload[socket.id].slice != undefined ? fileUpload[socket.id].slice++ : 0;
+        if (fileUpload[socket.id].slice * 100000 >= input.fileSize) {
+          //do something with the data 
+          console.log("file uploaded")
+        } else {
+          console.log('uploading file')
+        }
       } else {
-        io.in(socket.userroom).emit('message', message1);
+        console.log("Invalid Message Format Sent")
       }
-      console.log("Message sent in room: " + socket.userroom + ", Message: " + JSON.stringify(message1))
     })
 
     socket.on('whisper', function (info) {
@@ -350,7 +376,7 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
         }
       }
     });
-    console.log("DB call: Key = " + user + "; Value = " + value + "; Result = " + res);
+    console.log("DB call: Key = " + user + "; Value = " + value + "; Result = " + res).substring(0, 50);
     return res;
 
   }

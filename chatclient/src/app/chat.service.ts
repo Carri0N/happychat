@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
 import { TestService } from './test.service'
 import { User } from './classes/user';
+import { Socket } from 'net';
 
 @Injectable()
 export class ChatService {
@@ -24,11 +25,26 @@ export class ChatService {
 
   /**
    * emits message in specific chatroom
-   * @param chatroom 
-   * @param message 
+   * @param chatroom
+   * @param message
    */
-  public sendMessage(message) {
-    this.socket.emit('message', message);
+  public sendMessage(message: string, file) {
+    if(!file) {
+      this.socket.emit('message', {message: message, isFile: true});
+    } else {
+      var slice = file.slice(0, 100000);
+      var fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(slice);
+      fileReader.onload = (evt) => {
+        var arrayBuffer = fileReader.result;
+        this.socket.emit('message', {
+          message: message,
+          isFile: true,
+          data: arrayBuffer,
+          fileSize: file.size
+        })
+      }
+    }
   }
 
   /**
@@ -36,19 +52,6 @@ export class ChatService {
    */
   public getList() {
     this.socket.emit('listmsg');
-  }
-
-  /**
-   * emits message to one specific user
-   * @param user1 
-   * @param message1 
-   */
-  public whisper(user1, message1) {
-    this.socket.emit('whisper', {user: user1, msg:message1});
-  }
-
-  public sendFile(chatroom, message) {
-
   }
 
   /**
