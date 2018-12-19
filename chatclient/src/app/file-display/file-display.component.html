@@ -1,0 +1,6 @@
+<div>
+  <img *ngIf="data.split(':')[1].startsWith('image')" [src]="data" alt="---" style="width: 150px;height: 150px;" />
+  <audio *ngIf="data.split(':')[1].startsWith('audio')" controls [src]="data"></audio>
+  <video *ngIf="data.split(':')[1].startsWith('video')" controls [src]="data"></video>
+</div>
+<button mat-raised-button (click)="save()"> Save </button>

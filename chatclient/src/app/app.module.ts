@@ -31,6 +31,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatListModule} from '@angular/material/list';
 
 import {Dialog} from './login-form/login-form.component';
+import { FileDisplayComponent } from './file-display/file-display.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,9 @@ import {Dialog} from './login-form/login-form.component';
     UserlistComponent,
     RoomselectComponent,
 
-    Dialog
+    Dialog,
+
+    FileDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,6 @@ import {Dialog} from './login-form/login-form.component';
   ],
   providers: [ChatService, MoodService, SignupService, SigninService],
   bootstrap: [AppComponent],
-  entryComponents: [Dialog]
+  entryComponents: [Dialog, FileDisplayComponent]
 })
 export class AppModule { }

@@ -168,12 +168,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material_progress_bar__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/material/progress-bar */ "./node_modules/@angular/material/esm5/progress-bar.es5.js");
 /* harmony import */ var _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/material/progress-spinner */ "./node_modules/@angular/material/esm5/progress-spinner.es5.js");
 /* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/esm5/list.es5.js");
+/* harmony import */ var _file_display_file_display_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./file-display/file-display.component */ "./src/app/file-display/file-display.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -219,7 +221,8 @@ var AppModule = /** @class */ (function () {
                 _chat_form_chat_form_component__WEBPACK_IMPORTED_MODULE_13__["ChatFormComponent"],
                 _userlist_userlist_component__WEBPACK_IMPORTED_MODULE_15__["UserlistComponent"],
                 _roomselect_roomselect_component__WEBPACK_IMPORTED_MODULE_16__["RoomselectComponent"],
-                _login_form_login_form_component__WEBPACK_IMPORTED_MODULE_11__["Dialog"]
+                _login_form_login_form_component__WEBPACK_IMPORTED_MODULE_11__["Dialog"],
+                _file_display_file_display_component__WEBPACK_IMPORTED_MODULE_30__["FileDisplayComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -243,7 +246,7 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [_chat_service__WEBPACK_IMPORTED_MODULE_5__["ChatService"], _mood_service__WEBPACK_IMPORTED_MODULE_14__["MoodService"], _signup_service__WEBPACK_IMPORTED_MODULE_6__["SignupService"], _signin_service__WEBPACK_IMPORTED_MODULE_7__["SigninService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_2__["AppComponent"]],
-            entryComponents: [_login_form_login_form_component__WEBPACK_IMPORTED_MODULE_11__["Dialog"]]
+            entryComponents: [_login_form_login_form_component__WEBPACK_IMPORTED_MODULE_11__["Dialog"], _file_display_file_display_component__WEBPACK_IMPORTED_MODULE_30__["FileDisplayComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -271,7 +274,7 @@ module.exports = "\r\n#msg{\r\n    list-style-type: none;\r\n    margin: 0px;\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"messageContainer\">\n  <ul id=\"msg\">\n    <li *ngFor=\"let msg of messages\">\n      <div style=\"float: left\">\n        <div *ngIf=\"msg.img == null && msg.code == 3\">\n          <img id=\"img\" src=\"assets/image/default-user.png\">\n        </div>\n        <div *ngIf=\"msg.img != null && msg.code == 3\">\n          <img id=\"img\" [src]=\"'data:image/jpg;base64,'+msg.img\" />\n        </div>\n      </div>\n      <div style=\"float: left\">\n        <div id=\"head\">\n          <div id=\"timestamp\"><strong>{{msg.timestamp}}</strong></div>\n          <div id=\"name\"><strong>{{msg.user}}</strong></div>\n          <div id=\"mood\">{{msg.mood}}</div>\n        </div>\n        <div style=\"clear: both\"></div>\n\n        <div *ngIf=\"msg.code == 3\" id=\"message\">{{msg.msg}}</div>\n        <div *ngIf=\"msg.code != 3\" id=\"markedMessage\">{{msg.msg}}</div>\n        <div style=\"clear: both\"></div>\n      </div>\n      <div style=\"clear: both\"></div>\n    </li>\n  </ul>\n</div>"
+module.exports = "<div id=\"messageContainer\">\n  <ul id=\"msg\">\n    <li *ngFor=\"let msg of messages\">\n      <div style=\"float: left\">\n        <div *ngIf=\"msg.img == null && msg.code == 3\">\n          <img id=\"img\" src=\"assets/image/default-user.png\">\n        </div>\n        <div *ngIf=\"msg.img != null && msg.code == 3\">\n          <img id=\"img\" [src]=\"'data:image/jpg;base64,'+msg.img\" />\n        </div>\n      </div>\n      <div style=\"float: left\">\n        <div id=\"head\">\n          <div id=\"timestamp\"><strong>{{msg.timestamp}}</strong></div>\n          <div id=\"name\"><strong>{{msg.user}}</strong></div>\n          <div id=\"mood\">{{msg.id}}</div>\n        </div>\n        <div style=\"clear: both\"></div>\n\n        <div *ngIf=\"msg.code == 3\" id=\"message\">{{msg.msg}}</div>\n        <div *ngIf=\"msg.code != 3\" id=\"markedMessage\">{{msg.msg}}</div>\n\n        <div style=\"clear: both\"></div>\n      </div>\n      <div *ngIf=\"msg.isFile\" style=\"float:left; margin-left: 10px\">\n        <mat-spinner *ngIf=\"!msg.file\"></mat-spinner>\n        <button mat-icon-button *ngIf=\"msg.file\" (click)=\"openDialog(msg.file)\">\n          <mat-icon *ngIf=\"msg.file.split(':')[1].startsWith('image')\">panorama</mat-icon>\n          <mat-icon *ngIf=\"msg.file.split(':')[1].startsWith('audio')\">audiotrack</mat-icon>\n          <mat-icon *ngIf=\"msg.file.split(':')[1].startsWith('video')\">videocam</mat-icon>\n          <mat-icon *ngIf=\"!msg.file.split(':')[1].startsWith('video')&&!msg.file.split(':')[1].startsWith('audio')&&!msg.file.split(':')[1].startsWith('image')\">attach_file</mat-icon>\n        </button>\n      </div>\n      <div style=\"clear: both\"></div>\n    </li>\n  </ul>\n</div>"
 
 /***/ }),
 
@@ -286,6 +289,8 @@ module.exports = "<div id=\"messageContainer\">\n  <ul id=\"msg\">\n    <li *ngF
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatDisplayComponent", function() { return ChatDisplayComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _file_display_file_display_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../file-display/file-display.component */ "./src/app/file-display/file-display.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -296,10 +301,18 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var ChatDisplayComponent = /** @class */ (function () {
-    function ChatDisplayComponent() {
+    function ChatDisplayComponent(dialog) {
+        this.dialog = dialog;
     }
     ChatDisplayComponent.prototype.ngOnInit = function () {
+    };
+    ChatDisplayComponent.prototype.openDialog = function (file) {
+        var dialogRef = this.dialog.open(_file_display_file_display_component__WEBPACK_IMPORTED_MODULE_2__["FileDisplayComponent"], {
+            data: file,
+        });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -315,7 +328,7 @@ var ChatDisplayComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./chat-display.component.html */ "./src/app/chat-display/chat-display.component.html"),
             styles: [__webpack_require__(/*! ./chat-display.component.css */ "./src/app/chat-display/chat-display.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialog"]])
     ], ChatDisplayComponent);
     return ChatDisplayComponent;
 }());
@@ -342,7 +355,7 @@ module.exports = ".icon{\r\n    margin: 0px;\r\n    padding: 0px;\r\n}\r\n#fileb
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"container\">\n  <form (ngSubmit)=\"onSubmit()\" #chatForm=\"ngForm\">\n    <input [(ngModel)]=\"messageText\" class=\"form-control\" type=\"text\" id=\"input\" name=\"msg\" placeholder=\"Enter Message\"\n      required>\n    <button mat-stroked-button type=\"submit\" id=\"submit\">\n      <mat-icon class=\"icon\">send</mat-icon>\n    </button>\n    <label id=\"filebutton\" for=\"file\">\n      <button mat-stroked-button style=\"pointer-events: none;\">\n        <mat-icon class=\"icon\" style=\"pointer-events: none;\">attach_file</mat-icon>\n      </button>\n    </label>\n    <input type=\"file\" name=\"file\" id=\"file\" (change)=\"onChange($event)\" />\n  </form>\n</div>"
+module.exports = "<div id=\"container\">\n  <form (ngSubmit)=\"onSubmit()\" #chatForm=\"ngForm\">\n    <input [(ngModel)]=\"messageText\" class=\"form-control\" type=\"text\" id=\"input\" name=\"msg\" placeholder=\"{{filename}}\"\n      required>\n    <button mat-stroked-button type=\"submit\" id=\"submit\">\n      <mat-icon class=\"icon\">send</mat-icon>\n    </button>\n    <label id=\"filebutton\" for=\"file\">\n      <button mat-stroked-button style=\"pointer-events: none;\">\n        <mat-icon class=\"icon\" style=\"pointer-events: none;\">attach_file</mat-icon>\n      </button>\n    </label>\n    <input type=\"file\" name=\"file\" id=\"file\" (change)=\"onChange($event)\" />\n  </form>\n</div>"
 
 /***/ }),
 
@@ -371,16 +384,29 @@ var ChatFormComponent = /** @class */ (function () {
     function ChatFormComponent() {
         this.sendEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.messageText = "";
+        this.file = null;
+        this.filename = "Enter Message";
     }
     ChatFormComponent.prototype.ngOnInit = function () {
     };
     ChatFormComponent.prototype.onSubmit = function () {
         if (this.messageText != "") {
-            this.sendEvent.emit(this.messageText);
+            this.sendEvent.emit({ text: this.messageText, file: this.file });
             this.messageText = "";
+            console.log(this.file);
+            this.file = null;
+            this.filename = "Enter Message";
         }
     };
     ChatFormComponent.prototype.onChange = function (event) {
+        var _this = this;
+        if (event.target.files && event.target.files[0]) {
+            var file = event.target.files[0];
+            this.filename = file.name;
+            var reader_1 = new FileReader();
+            reader_1.onload = function (e) { return _this.file = reader_1.result; };
+            reader_1.readAsDataURL(file);
+        }
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
@@ -446,24 +472,24 @@ var ChatService = /** @class */ (function () {
      * @param chatroom
      * @param message
      */
-    ChatService.prototype.sendMessage = function (message) {
-        this.socket.emit('message', message);
+    ChatService.prototype.sendMessage = function (message, file) {
+        if (!file) {
+            this.socket.emit('message', { message: message, isFile: false });
+        }
+        else {
+            this.socket.emit('message', {
+                message: message,
+                isFile: true,
+                data: file,
+                fileSize: file.size
+            });
+        }
     };
     /**
      * requests list of all user from server
      */
     ChatService.prototype.getList = function () {
         this.socket.emit('listmsg');
-    };
-    /**
-     * emits message to one specific user
-     * @param user1
-     * @param message1
-     */
-    ChatService.prototype.whisper = function (user1, message1) {
-        this.socket.emit('whisper', { user: user1, msg: message1 });
-    };
-    ChatService.prototype.sendFile = function (chatroom, message) {
     };
     /**
      * lets everybody know that you left
@@ -481,9 +507,15 @@ var ChatService = /** @class */ (function () {
                 if (message.code == 1) {
                     _this.userlist.push(new _classes_user__WEBPACK_IMPORTED_MODULE_3__["User"](message.username, null));
                 }
-                else if (message.code == 2) {
-                }
                 observer.next(message);
+            });
+        });
+    };
+    ChatService.prototype.getMessageFile = function () {
+        var _this = this;
+        return rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"].create(function (observer) {
+            _this.socket.on('messageFile', function (data) {
+                observer.next(data);
             });
         });
     };
@@ -528,12 +560,15 @@ var ChatService = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Message", function() { return Message; });
 var Message = /** @class */ (function () {
-    function Message(user, timestamp, msg, code) {
+    function Message(id, isFile, user, timestamp, msg, code) {
         this.img = null;
+        this.file = null;
         this.user = user;
         this.timestamp = timestamp;
         this.msg = msg;
         this.code = code;
+        this.isFile = isFile;
+        this.id = id;
     }
     return Message;
 }());
@@ -558,6 +593,80 @@ var User = /** @class */ (function () {
         this.image = image;
     }
     return User;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/file-display/file-display.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/file-display/file-display.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "div{\r\n    width: 480px;\r\n    height: 320px;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/file-display/file-display.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/file-display/file-display.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <img *ngIf=\"data.split(':')[1].startsWith('image')\" [src]=\"data\" alt=\"---\" style=\"width: 150px;height: 150px;\" />\n  <audio *ngIf=\"data.split(':')[1].startsWith('audio')\" controls [src]=\"data\"></audio>\n  <video *ngIf=\"data.split(':')[1].startsWith('video')\" controls [src]=\"data\"></video>\n</div>\n<button mat-raised-button (click)=\"save()\"> Save </button>"
+
+/***/ }),
+
+/***/ "./src/app/file-display/file-display.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/file-display/file-display.component.ts ***!
+  \********************************************************/
+/*! exports provided: FileDisplayComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileDisplayComponent", function() { return FileDisplayComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+var FileDisplayComponent = /** @class */ (function () {
+    function FileDisplayComponent(dialogRef, data) {
+        this.dialogRef = dialogRef;
+        this.data = data;
+    }
+    FileDisplayComponent.prototype.ngOnInit = function () {
+    };
+    FileDisplayComponent.prototype.save = function () {
+        download(this.data, "content", this.data.split(',')[0].split(':')[1]);
+    };
+    FileDisplayComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-file-display',
+            template: __webpack_require__(/*! ./file-display.component.html */ "./src/app/file-display/file-display.component.html"),
+            styles: [__webpack_require__(/*! ./file-display.component.css */ "./src/app/file-display/file-display.component.css")]
+        }),
+        __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object])
+    ], FileDisplayComponent);
+    return FileDisplayComponent;
 }());
 
 
@@ -631,7 +740,7 @@ var GlobalchatComponent = /** @class */ (function () {
         var _this = this;
         this.chatservice.join(this.chat);
         this.chatservice.getMessages().subscribe(function (message) {
-            var m = new _classes_message__WEBPACK_IMPORTED_MODULE_3__["Message"](message.user, message.timestamp, message.message, message.code);
+            var m = new _classes_message__WEBPACK_IMPORTED_MODULE_3__["Message"](message.id, message.isFile, message.user, message.timestamp, message.message, message.code);
             var found = false;
             var i = 0;
             while (i < _this.userlist.length && !found) {
@@ -643,10 +752,17 @@ var GlobalchatComponent = /** @class */ (function () {
             }
             _this.displayMessages.push(m);
         });
+        this.chatservice.getMessageFile().subscribe(function (messageFile) {
+            _this.displayMessages.forEach(function (element) {
+                if (element.id == messageFile.id) {
+                    element.file = messageFile.file;
+                }
+            });
+        });
     };
     GlobalchatComponent.prototype.sendMessage = function ($event) {
         var input = $event;
-        this.chatservice.sendMessage(input);
+        this.chatservice.sendMessage(input.text, input.file);
     };
     /**
      * Handles file inputs TODO

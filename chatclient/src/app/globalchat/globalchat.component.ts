@@ -3,7 +3,7 @@ import { ChatService } from '../chat.service';
 import { Router } from '@angular/router';
 import { Message } from '../classes/message';
 import { MoodService } from '../mood.service';
-import { User } from '../classes/user'
+import { User } from '../classes/user';
 
 @Component({
   selector: 'app-globalchat',
@@ -31,7 +31,7 @@ export class GlobalchatComponent implements OnInit {
   ngOnInit() {
     this.chatservice.join(this.chat);
     this.chatservice.getMessages().subscribe((message) => {
-      var m = new Message(message.user, message.timestamp, message.message, message.code);
+      var m = new Message(message.id, message.isFile, message.user, message.timestamp, message.message, message.code);
       var found = false;
       var i = 0;
       while(i < this.userlist.length && !found) {
@@ -43,6 +43,13 @@ export class GlobalchatComponent implements OnInit {
       }
       this.displayMessages.push(m);
     });
+    this.chatservice.getMessageFile().subscribe((messageFile) => {
+      this.displayMessages.forEach(element => {
+        if(element.id == messageFile.id) {
+          element.file = messageFile.file;
+        }
+      });
+    })
   }
 
   sendMessage($event) {

@@ -13,13 +13,23 @@
         <div id="head">
           <div id="timestamp"><strong>{{msg.timestamp}}</strong></div>
           <div id="name"><strong>{{msg.user}}</strong></div>
-          <div id="mood">{{msg.mood}}</div>
+          <div id="mood">{{msg.id}}</div>
         </div>
         <div style="clear: both"></div>
 
         <div *ngIf="msg.code == 3" id="message">{{msg.msg}}</div>
         <div *ngIf="msg.code != 3" id="markedMessage">{{msg.msg}}</div>
+
         <div style="clear: both"></div>
+      </div>
+      <div *ngIf="msg.isFile" style="float:left; margin-left: 10px">
+        <mat-spinner *ngIf="!msg.file"></mat-spinner>
+        <button mat-icon-button *ngIf="msg.file" (click)="openDialog(msg.file)">
+          <mat-icon *ngIf="msg.file.split(':')[1].startsWith('image')">panorama</mat-icon>
+          <mat-icon *ngIf="msg.file.split(':')[1].startsWith('audio')">audiotrack</mat-icon>
+          <mat-icon *ngIf="msg.file.split(':')[1].startsWith('video')">videocam</mat-icon>
+          <mat-icon *ngIf="!msg.file.split(':')[1].startsWith('video')&&!msg.file.split(':')[1].startsWith('audio')&&!msg.file.split(':')[1].startsWith('image')">attach_file</mat-icon>
+        </button>
       </div>
       <div style="clear: both"></div>
     </li>

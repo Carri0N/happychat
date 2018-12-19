@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { TestService } from './test.service'
 import { User } from './classes/user';
-import { Socket } from 'net';
 
 @Injectable()
 export class ChatService {
@@ -29,21 +28,16 @@ export class ChatService {
    * @param message
    */
   public sendMessage(message: string, file) {
-    if(!file) {
-      this.socket.emit('message', {message: message, isFile: true});
+    
+    if (!file) {
+      this.socket.emit('message', { message: message, isFile: false });
     } else {
-      var slice = file.slice(0, 100000);
-      var fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(slice);
-      fileReader.onload = (evt) => {
-        var arrayBuffer = fileReader.result;
-        this.socket.emit('message', {
-          message: message,
-          isFile: true,
-          data: arrayBuffer,
-          fileSize: file.size
-        })
-      }
+      this.socket.emit('message', {
+        message: message,
+        isFile: true,
+        data: file,
+        fileSize: file.size
+      })
     }
   }
 
@@ -67,14 +61,20 @@ export class ChatService {
   public getMessages() {
     return Observable.create((observer) => {
       this.socket.on('message', (message) => {
-        if(message.code == 1) {
+        if (message.code == 1) {
           this.userlist.push(new User(message.username, null));
-        } else if(message.code == 2) {
-          
         }
         observer.next(message);
       });
     });
+  }
+
+  public getMessageFile(){
+    return Observable.create((observer) => {
+      this.socket.on('messageFile', (data) => {
+        observer.next(data);
+      })
+    })
   }
 
   public getAllUsers() {

@@ -11,6 +11,7 @@ export class ChatFormComponent implements OnInit {
 
   messageText = "";
   file = null;
+  filename = "Enter Message";
 
   constructor() {}
 
@@ -21,17 +22,19 @@ export class ChatFormComponent implements OnInit {
     if(this.messageText != "") {
       this.sendEvent.emit({text: this.messageText, file: this.file});
       this.messageText = "";
+      console.log(this.file);
       this.file = null;
+      this.filename = "Enter Message";
     }
   }
 
   onChange(event) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      this.filename = file.name;
       const reader = new FileReader();
       reader.onload = e => this.file = reader.result;
       reader.readAsDataURL(file);
-      //this.signup.validateImage(file);
     }
   }
 }

@@ -12,6 +12,7 @@ var MONGODB_URL = "mongodb://admin:GWUJEMLJRVRJSUEM@portal-ssl372-68.bmix-eu-gb-
 const express = require('express');
 const app = express();
 
+const bcrypt = require('bcryptjs');
 const helmet = require('helmet')
 const fs = require('fs');
 const fu = require('socketio-file-upload');
@@ -39,25 +40,41 @@ server.listen(port, () => {
   console.log(`started on port: ${port}`);
 });
 
+/**
+ * Force HTTPS
+ */
+app.use(function (req, res, next) {
+  if (req.secure || process.env.BLUEMIX_REGION === undefined) {
+    next();
+  } else {
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+});
 
 app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));
 
+
+
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/client/index.html');
 })
 
+
+
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
+  var users;
   if (!err) {
     console.log("Databasee connected");
     var dbo = db.db("mydb");
     updateUsers();
   } else {
-    throw err;
+    console.log("!Local Database!")
+    users = [{ user: "aaaa", pass: "a", file: null, mood: false }]
   }
 
-  var users;
+
 
   //socket data
   //  validchatsession: boolean
@@ -71,7 +88,12 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
     uploader.on("saved", function (event) {
       console.log("Saved file: " + event.file.pathName);
       if (socket.file) {
-        fs.unlinkSync(socket.file.pathName)
+        try {
+          fs.unlinkSync(socket.file.pathName)
+        } catch (e) {
+
+        }
+
       }
       socket.file = event.file;
     })
@@ -104,7 +126,7 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
       if (validation.validpass && validation.validuser) {
 
         if (readDB(user, "user") == user) {
-          socket.validchatsession = readDB(user, "pass") == pass;
+          socket.validchatsession = bcrypt.compareSync(pass, readDB(user, "pass"));;
           if (socket.validchatsession) {
             result.code = 1;
             result.message += ", logged in";
@@ -206,7 +228,7 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
           result.feedback = response;
           console.log("Result of picture validation '" + socket.file.pathName + "': " + result.result + "\n" + JSON.stringify(response, null, 2))
           socket.emit('fileValidation', result);
-          socket.file.filevalidation = result;
+          socket.file.filevalidation = result.result;
         }
       });
     })
@@ -261,44 +283,41 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
      * }
      */
     socket.on('message', function (input) {
-      if (!input.isFile) {
-        var message = input.message;
-        message1 = createMessage(3, socket.nickname, message)
-        asarr = message.split(" ");
-
-        if (asarr[0] == "\\whisper" && asarr.length > 2) {
-          findClientsSocket().forEach(element => {
-            if (element.nickname == asarr[1]) {
-              m = "";
-              for (let index = 2; index < asarr.length; index++) {
-                m += asarr[index] + " ";
-              }
-              socket.emit('message', createMessage(3, socket.nickname + " > " + element.nickname, m));
-              element.emit('message', createMessage(3, socket.nickname + " > " + element.nickname, m));
+      var message = input.message;
+      var message1 = createMessage(3, socket.nickname, message)
+      asarr = message.split(" ");
+      message1.isFile = input.isFile;
+      if (asarr[0] == "\\whisper" && asarr.length > 2) {
+        findClientsSocket().forEach(element => {
+          if (element.nickname == asarr[1]) {
+            m = "";
+            for (let index = 2; index < asarr.length; index++) {
+              m += asarr[index] + " ";
             }
-          });
-        } else if (asarr[0] == "\\list") {
-          message1.message = getAllUsersAsString();
-          message1.code = 1;
-          message1.user = "Server List";
-          socket.emit('message', message1);
-        } else {
-          io.in(socket.userroom).emit('message', message1);
-        }
-        console.log("Message sent in room: " + socket.userroom + ", Message: " + JSON.stringify(message1))
-      } else if (input.isFile) {
-        input.file = new Buffer(new Uint8Array(input.file))
-        fileUpload[socket.id].file.push(input.file);
-        fileUpload[socket.id].slice = fileUpload[socket.id].slice != undefined ? fileUpload[socket.id].slice++ : 0;
-        if (fileUpload[socket.id].slice * 100000 >= input.fileSize) {
-          //do something with the data 
-          console.log("file uploaded")
-        } else {
-          console.log('uploading file')
-        }
+            var prvmsg1 = createMessage(3, socket.nickname + " > " + element.nickname, m);
+            var prvmsg2 = createMessage(3, socket.nickname + " > " + element.nickname, m);
+            prvmsg1.isFile = input.isFile;
+            prvmsg2.isFile = input.isFile;
+            socket.emit('message', prvmsg1);
+            element.emit('message', prvmsg2);
+            if (input.isFile) {
+              element.emit('messageFile', { id: prvmsg2.id, file: input.data });
+              socket.emit('messageFile', { id: prvmsg1.id, file: input.data });
+            }
+          }
+        });
+      } else if (asarr[0] == "\\list") {
+        message1.message = getAllUsersAsString();
+        message1.code = 1;
+        message1.user = "Server List";
+        socket.emit('message', message1);
       } else {
-        console.log("Invalid Message Format Sent")
+        io.in(socket.userroom).emit('message', message1);
+        if (input.isFile) {
+          io.in(socket.userroom).emit('messageFile', { id: message1.id, file: input.data });
+        }
       }
+      console.log("Message sent in room: " + socket.userroom + ", Message: " + JSON.stringify(message1))
     })
 
     socket.on('whisper', function (info) {
@@ -330,7 +349,6 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
         users += element.nickname + " ";
       });
       socket.emit('message', { timestamp: 'Server', user: 'Online Users', msg: users });
-      console.log(users);
     })
 
   });
@@ -338,19 +356,24 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
 
 
   function updateUsers() {
-    dbo.collection("users").find({}).toArray(function (err, result) {
-      if (err) throw err;
-      users = result;
-    });
+    try {
+      dbo.collection("users").find({}).toArray(function (err, result) {
+        if (err) throw err;
+        users = result;
+      });
+    } catch (e) { }
   }
 
   function writeDB(signupdata) {
-
-    dbo.collection("users").insertOne(signupdata, function (err, res) {
-      if (err) throw err;
-      console.log("user inserted");
-    });
-    //databaseDummy.push(signupdata);
+    signupdata.pass = bcrypt.hashSync(signupdata.pass, 8);
+    try {
+      dbo.collection("users").insertOne(signupdata, function (err, res) {
+        if (err) throw err;
+        console.log("user inserted");
+      });
+    } catch (e) {
+      users.push(signupdata);
+    }
     console.log("Successfull sign up for: " + signupdata.user + " " + signupdata.pass + " " + signupdata.mood + " " + (uufile = signupdata.file == null ? null : signupdata.file.substring(0, 8) + "..."))
     updateUsers();
   }
@@ -376,7 +399,7 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
         }
       }
     });
-    console.log("DB call: Key = " + user + "; Value = " + value + "; Result = " + res).substring(0, 50);
+    console.log("DB call: Key = " + user + "; Value = " + value + "; Result = " + value == "file" ? (res ? res.substring(0, 50) : null) : res);
     return res;
 
   }
