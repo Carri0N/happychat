@@ -32,6 +32,7 @@ export class ChatService {
     if (!file) {
       this.socket.emit('message', { message: message, isFile: false });
     } else {
+      
       this.socket.emit('message', {
         message: message,
         isFile: true,

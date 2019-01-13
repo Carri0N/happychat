@@ -1,6 +1,7 @@
 <div id="container">
   <form (ngSubmit)="onSubmit()" #chatForm="ngForm">
-    <input [(ngModel)]="messageText" class="form-control" type="text" id="input" name="msg" placeholder="{{filename}}"
+    
+    <input data-emojiable="true" [(ngModel)]="messageText" class="form-control" type="text" id="input" name="msg" placeholder="{{filename}}"
       required>
     <button mat-stroked-button type="submit" id="submit">
       <mat-icon class="icon">send</mat-icon>

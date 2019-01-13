@@ -355,7 +355,7 @@ module.exports = ".icon{\r\n    margin: 0px;\r\n    padding: 0px;\r\n}\r\n#fileb
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"container\">\n  <form (ngSubmit)=\"onSubmit()\" #chatForm=\"ngForm\">\n    <input [(ngModel)]=\"messageText\" class=\"form-control\" type=\"text\" id=\"input\" name=\"msg\" placeholder=\"{{filename}}\"\n      required>\n    <button mat-stroked-button type=\"submit\" id=\"submit\">\n      <mat-icon class=\"icon\">send</mat-icon>\n    </button>\n    <label id=\"filebutton\" for=\"file\">\n      <button mat-stroked-button style=\"pointer-events: none;\">\n        <mat-icon class=\"icon\" style=\"pointer-events: none;\">attach_file</mat-icon>\n      </button>\n    </label>\n    <input type=\"file\" name=\"file\" id=\"file\" (change)=\"onChange($event)\" />\n  </form>\n</div>"
+module.exports = "<div id=\"container\">\n  <form (ngSubmit)=\"onSubmit()\" #chatForm=\"ngForm\">\n    \n    <input data-emojiable=\"true\" [(ngModel)]=\"messageText\" class=\"form-control\" type=\"text\" id=\"input\" name=\"msg\" placeholder=\"{{filename}}\"\n      required>\n    <button mat-stroked-button type=\"submit\" id=\"submit\">\n      <mat-icon class=\"icon\">send</mat-icon>\n    </button>\n    <label id=\"filebutton\" for=\"file\">\n      <button mat-stroked-button style=\"pointer-events: none;\">\n        <mat-icon class=\"icon\" style=\"pointer-events: none;\">attach_file</mat-icon>\n      </button>\n    </label>\n    <input type=\"file\" name=\"file\" id=\"file\" (change)=\"onChange($event)\" />\n  </form>\n</div>"
 
 /***/ }),
 
