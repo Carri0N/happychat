@@ -57,11 +57,12 @@ app.use(function (req, res, next) {
 });
 
 //App Configuration
+app.enable('trust proxy');
 app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));
 app.get('*', function (req, res) {
-  res.end(cluster.worker.id);
+  res.end('id ' + cluster.worker.id);
   //res.sendFile(__dirname + '/client/index.html');
 })
 
