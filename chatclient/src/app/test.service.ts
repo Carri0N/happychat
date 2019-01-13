@@ -10,7 +10,7 @@ export class TestService {
   private socket;
 
   constructor(private titleService: Title) {
-    this.socket = io();
+    this.socket = io({transports: ['websocket']});
     this.socket.on('id', (result) => {
       console.log(result)
       this.titleService.setTitle(result);

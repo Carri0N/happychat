@@ -1356,7 +1356,7 @@ var TestService = /** @class */ (function () {
     function TestService(titleService) {
         var _this = this;
         this.titleService = titleService;
-        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__();
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__({ transports: ['websocket'] });
         this.socket.on('id', function (result) {
             console.log(result);
             _this.titleService.setTitle(result);
