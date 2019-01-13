@@ -58,7 +58,7 @@ app.use(function (req, res, next) {
 });
 
 //App Configuration
-app.enable('trust proxy');
+//app.enable('trust proxy');
 app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));

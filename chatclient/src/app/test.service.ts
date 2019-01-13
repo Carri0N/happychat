@@ -13,7 +13,7 @@ export class TestService {
     this.socket = io({transports: ['websocket']});
     this.socket.on('id', (result) => {
       console.log(result)
-      this.titleService.setTitle(result);
+      this.titleService.setTitle(result || "local");
     });
   }
 
