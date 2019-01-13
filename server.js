@@ -47,21 +47,22 @@ server.listen(port, () => {
 
 /**
  * Force HTTPS
- */
+ *
 app.use(function (req, res, next) {
   if (req.secure || process.env.BLUEMIX_REGION === undefined) {
     next();
   } else {
     res.redirect('https://' + req.headers.host + req.url);
   }
-});
+});*/
 
 //App Configuration
 app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));
 app.get('*', function (req, res) {
-  res.sendFile(__dirname + '/client/index.html');
+  res.end(cluster.worker.id);
+  //res.sendFile(__dirname + '/client/index.html');
 })
 
 //socket.io Configuration including redis adapter
