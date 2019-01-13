@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
@@ -69,7 +69,7 @@ import { FileDisplayComponent } from './file-display/file-display.component';
     MatProgressSpinnerModule,
     MatListModule
   ],
-  providers: [ChatService, MoodService, SignupService, SigninService],
+  providers: [Title, ChatService, MoodService, SignupService, SigninService],
   bootstrap: [AppComponent],
   entryComponents: [Dialog, FileDisplayComponent]
 })

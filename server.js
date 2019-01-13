@@ -24,8 +24,8 @@ const VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v
   moment = require('moment'),
   base64 = require('image-to-base64'),
   redisAdapter = require('socket.io-redis'),
-  redis = require('redis');
-sticky = require('sticky-session');
+  redis = require('redis'),
+  sticky = require('sticky-session');
 
 //Outside Config
 var visualRecognition = new VisualRecognitionV3({
@@ -63,8 +63,7 @@ app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));
 app.get('*', function (req, res) {
-  res.end('id ' + instanceid);
-  //res.sendFile(__dirname + '/client/index.html');
+  res.sendFile(__dirname + '/client/index.html');
 })
 
 //socket.io Configuration including redis adapter
@@ -81,7 +80,7 @@ io.adapter(redisAdapter({ pubClient: pub, subClient: sub }));
 var dbo;
 var users;
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
-  
+
   if (!err) {
     console.log("Databasee connected");
     dbo = db.db("mydb");
@@ -96,6 +95,7 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
 //  validchatsession: boolean
 io.on('connection', (socket) => {
 
+  socket.emit('id', instanceid);
   socket.validchatsession = false; //needs login
   var uploader = new fu();
   uploader.dir = "./tempfile/";

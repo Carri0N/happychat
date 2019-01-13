@@ -244,7 +244,7 @@ var AppModule = /** @class */ (function () {
                 _angular_material_progress_spinner__WEBPACK_IMPORTED_MODULE_28__["MatProgressSpinnerModule"],
                 _angular_material_list__WEBPACK_IMPORTED_MODULE_29__["MatListModule"]
             ],
-            providers: [_chat_service__WEBPACK_IMPORTED_MODULE_5__["ChatService"], _mood_service__WEBPACK_IMPORTED_MODULE_14__["MoodService"], _signup_service__WEBPACK_IMPORTED_MODULE_6__["SignupService"], _signin_service__WEBPACK_IMPORTED_MODULE_7__["SigninService"]],
+            providers: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["Title"], _chat_service__WEBPACK_IMPORTED_MODULE_5__["ChatService"], _mood_service__WEBPACK_IMPORTED_MODULE_14__["MoodService"], _signup_service__WEBPACK_IMPORTED_MODULE_6__["SignupService"], _signin_service__WEBPACK_IMPORTED_MODULE_7__["SigninService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_2__["AppComponent"]],
             entryComponents: [_login_form_login_form_component__WEBPACK_IMPORTED_MODULE_11__["Dialog"], _file_display_file_display_component__WEBPACK_IMPORTED_MODULE_30__["FileDisplayComponent"]]
         })
@@ -1337,8 +1337,9 @@ var SignupService = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TestService", function() { return TestService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
-/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_2__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1350,9 +1351,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var TestService = /** @class */ (function () {
-    function TestService() {
-        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1__();
+    function TestService(titleService) {
+        var _this = this;
+        this.titleService = titleService;
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__();
+        this.socket.on('id', function (result) {
+            console.log(result);
+            _this.titleService.setTitle(result);
+        });
     }
     TestService.prototype.getSocket = function () {
         return this.socket;
@@ -1361,7 +1369,7 @@ var TestService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"]])
     ], TestService);
     return TestService;
 }());
