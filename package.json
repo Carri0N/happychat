@@ -27,6 +27,7 @@
     "socket.io": "^2.1.1",
     "socket.io-redis": "^5.2.0",
     "socketio-file-upload": "^0.6.4",
+    "socketio-sticky-session": "^0.4.3",
     "sticky-session": "^1.1.2",
     "watson-developer-cloud": "^3.13.0"
   }

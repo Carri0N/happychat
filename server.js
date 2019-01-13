@@ -1,5 +1,6 @@
 //Cloud Computing WS18/19 Node.js Chat Server; Adrian Schwab, Maximilian Waiblinger
-//Process var
+
+//env var /todo
 var visualRecognitionApiKey = 'U3PVlQAjoK5qBRbADy2ldZ4th_T6HVk_RiuaitGTYIns',
   MONGODB_URL = "mongodb://admin:GWUJEMLJRVRJSUEM@portal-ssl372-68.bmix-eu-gb-yp-4e6e6ba4-9939-4737-a6f5-ac66984882f5.12159979.composedb.com:16101,portal-ssl357-46.bmix-eu-gb-yp-4e6e6ba4-9939-4737-a6f5-ac66984882f5.12159979.composedb.com:16101/compose?authSource=admin&ssl=true",
   redis_url = "rediss://admin:WSRNRJNWOCQKDCUW@portal252-12.bmix-eude-yp-b10e6bc9-2c01-4247-9e4b-e4eb146e27d5.284876237.composedb.com:19322",
@@ -22,8 +23,8 @@ const VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v
   moment = require('moment'),
   base64 = require('image-to-base64'),
   redisAdapter = require('socket.io-redis'),
-  redis = require('redis'),
-  sticky = require('sticky-session');
+  redis = require('redis');
+sticky = require('sticky-session');
 
 //Outside Config
 var visualRecognition = new VisualRecognitionV3({
@@ -39,9 +40,10 @@ var mongoOptions = {
 //Creating server
 const app = express();
 var server = http.createServer(app, function (req, res) { });
+/*
 server.listen(port, () => {
   console.log("Server started on port " + port);
-})
+})*/
 
 /**
  * Force HTTPS
@@ -63,7 +65,7 @@ app.get('*', function (req, res) {
 })
 
 //socket.io Configuration including redis adapter
-const io = socketIO(server);
+var io = socketIO(server);
 const pub = redis.createClient(redis_url,
   { tls: { servername: new URL(redis_url).hostname } }
 );
@@ -74,8 +76,9 @@ io.adapter(redisAdapter({ pubClient: pub, subClient: sub }));
 
 //Database Connect
 var dbo;
+var users;
 MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
-  var users;
+  
   if (!err) {
     console.log("Databasee connected");
     dbo = db.db("mydb");
@@ -85,7 +88,6 @@ MongoClient.connect(MONGODB_URL, mongoOptions, function (err, db) {
     users = [{ user: "aaaa", pass: "a", file: null, mood: false }]
   }
 });
-
 
 //socket data
 //  validchatsession: boolean
@@ -357,6 +359,18 @@ io.on('connection', (socket) => {
   })
 
 });
+
+if (!sticky.listen(server, port)) {
+
+  server.once('listening', function () {
+    console.log('Server started on port ' + port);
+  })
+  if (cluster.isMaster) {
+    console.log('Master Server started on port ' + port)
+  }
+} else {
+  console.log('Child worker started on port ' + port + ', worker id = ' + cluster.worker.id)
+}
 
 
 
