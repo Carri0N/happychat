@@ -4,7 +4,8 @@
 var visualRecognitionApiKey = 'U3PVlQAjoK5qBRbADy2ldZ4th_T6HVk_RiuaitGTYIns',
   MONGODB_URL = "mongodb://admin:GWUJEMLJRVRJSUEM@portal-ssl372-68.bmix-eu-gb-yp-4e6e6ba4-9939-4737-a6f5-ac66984882f5.12159979.composedb.com:16101,portal-ssl357-46.bmix-eu-gb-yp-4e6e6ba4-9939-4737-a6f5-ac66984882f5.12159979.composedb.com:16101/compose?authSource=admin&ssl=true",
   redis_url = "rediss://admin:WSRNRJNWOCQKDCUW@portal252-12.bmix-eude-yp-b10e6bc9-2c01-4247-9e4b-e4eb146e27d5.284876237.composedb.com:19322",
-  port = process.env.PORT || 3000;
+  port = process.env.PORT || 3000,
+  instanceid = process.env.CF_INSTANCE_INDEX;
 //Packages
 const VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3'),
   ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3'),
@@ -62,7 +63,7 @@ app.use(helmet());
 app.use(fu.router);
 app.use(express.static(__dirname));
 app.get('*', function (req, res) {
-  res.end('id ' + cluster.worker.id);
+  res.end('id ' + instanceid);
   //res.sendFile(__dirname + '/client/index.html');
 })
 
