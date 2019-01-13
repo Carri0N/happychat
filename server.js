@@ -47,14 +47,14 @@ server.listen(port, () => {
 
 /**
  * Force HTTPS
- *
+ */
 app.use(function (req, res, next) {
   if (req.secure || process.env.BLUEMIX_REGION === undefined) {
     next();
   } else {
     res.redirect('https://' + req.headers.host + req.url);
   }
-});*/
+});
 
 //App Configuration
 app.use(helmet());
